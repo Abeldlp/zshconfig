@@ -208,3 +208,163 @@ export MSF_DATABASE_CONFIG="/Users/abeldelapaz/.msf4/database.yml"
 export PATH="/usr/local/opt/node@16/bin:$PATH"
 export PATH="/usr/local/opt/ruby@2.7/bin:$PATH"
 export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:$PATH"
+
+
+ARCH
+
+#############################################################
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# CASE_SENSITIVE="true"
+
+# HYPHEN_INSENSITIVE="true"
+
+# zstyle ':omz:update' frequency 13
+
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# DISABLE_LS_COLORS="true"
+
+# DISABLE_AUTO_TITLE="true"
+
+# ENABLE_CORRECTION="true"
+
+# COMPLETION_WAITING_DOTS="true"
+
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# HIST_STAMPS="mm/dd/yyyy"
+
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+plugins=(
+  git
+  z
+  zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# export LANG=en_US.UTF-8
+
+alias config="nvim ~/.zshrc"
+alias sconfig="source ~/.zshrc"
+alias v="nvim"
+alias a="git add ."
+alias s="git status"
+alias c="git commit"
+alias p="git push"
+alias gl="git log"
+alias glo="git log --oneline"
+alias gd="git diff ."
+alias gds="git diff --staged ."
+alias l="logo-ls -l"
+alias ll="logo-ls -la"
+alias x="exit"
+alias open="xdg-open"
+alias t="tmux"
+alias docker-down="sudo chmod 666 /var/run/docker.sock"
+alias crm-node="nvm use 14.19.0"
+alias store="~/AppImages/pling-store-5.0.2-1-x86_64.AppImage"
+alias music="glava > /dev/null 2>&1 &"
+alias window="tmux rename-window"
+alias token="cat ~/token.md"
+alias cat="bat"
+alias ports="sudo lsof -i -P -n | grep LISTEN"
+alias start-docker-desktop="systemctl --user start docker-desktop"
+alias stop-docker-desktop="systemctl --user stop docker-desktop"
+alias stoplight="~/Tools/stoplight-studio-linux-x86_64.AppImage --disable-gpu-sandbox"
+alias act="~/bin/act"
+alias docker-stop="docker stop $(docker ps -a -q)"
+alias zoom="zoom --disable-gpu-sandbox"
+
+function screen() {
+  xrandr --output DP-4 --brightness $1
+}
+
+function squash(){
+  git reset $(git merge-base master $(git branch --show-current))
+}
+
+function exploit(){
+    sqlmap -u $1 --random-agent --tamper=space2comment --batch
+}
+
+function exploit-dork(){
+    sqlmap -g $1 --random-agent --tamper=space2comment --batch
+}
+
+function firafont (){
+  current_directory=$(pwd)
+  cd ~/.config/alacritty
+  git checkout solarized-hack
+  cd $current_directory
+}
+
+function nofont (){
+  current_directory=$(pwd)
+  cd ~/.config/alacritty
+  git checkout solarized
+  cd $current_directory
+}
+
+function borders (){
+  GREEN='\033[0;32m'
+  NC='\033[0m' # No Color
+  OPTION="$(echo $1 | tr a-z A-Z)"
+  echo "${GREEN} ${NC} Decorations have been changed to ${GREEN}${OPTION}${NC} for next terminal"
+  sed -i "s/decorations: .*/decorations: $1/g" ~/.config/alacritty/alacritty.yml
+}
+
+function opacity(){
+  GREEN='\033[0;32m'
+  NC='\033[0m' # No Color
+  OPTION="$(echo $1 | tr a-z A-Z)"
+  echo "${GREEN} ${NC} Opacity changed to ${GREEN}${OPTION}${NC}"
+  sed -i "s/opacity: .*/opacity: 0.$1/g" ~/.config/alacritty/alacritty.yml
+}
+
+
+function kill-port(){
+  sudo kill -9 $(sudo lsof -t -i:$1)
+}
+
+function toggle(){
+  current_size=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f1)
+  if [ ${current_size} != 2560 ]
+  then
+      cd ~/.config/glava
+      git checkout main
+      cd ~/
+  else
+      cd ~/.config/glava
+      git checkout laptop 
+      cd ~/
+  fi
+}
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+export PATH=$HOME/Tools/bin:$PATH
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
